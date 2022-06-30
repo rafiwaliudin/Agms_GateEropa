@@ -1,0 +1,149 @@
+@extends('layouts.app')
+@section('content')
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">Camera Management</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">AGMS</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-sm-6 col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="font-size-14">Visitor Today</h5>
+                            </div>
+                            <div class="avatar-xs">
+                                                <span class="avatar-title rounded-circle bg-primary">
+                                                    <i class="dripicons-user-group"></i>
+                                                </span>
+                            </div>
+                        </div>
+                        <h4 class="m-0 align-self-center" id="total-visitor-current-daily">0</h4>
+                        <p class="mb-0 mt-3 text-muted"><span class="text-info" id="total-visitor-difference-daily">0<i
+                                    class="mdi mdi-trending-neutral mr-1"></i></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="font-size-14">Visitor This Week</h5>
+                            </div>
+                            <div class="avatar-xs">
+                                                <span class="avatar-title rounded-circle bg-primary">
+                                                    <i class="dripicons-user-group"></i>
+                                                </span>
+                            </div>
+                        </div>
+                        <h4 class="m-0 align-self-center" id="total-visitor-current-weekly">0 </h4>
+                        <p class="mb-0 mt-3 text-muted"><span class="text-info"
+                                                              id="total-visitor-difference-weekly">0 <i
+                                    class="mdi mdi-trending-neutral mr-1"></i></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="font-size-14">Visitor This Month</h5>
+                            </div>
+                            <div class="avatar-xs">
+                                                <span class="avatar-title rounded-circle bg-primary">
+                                                    <i class="dripicons-user-group"></i>
+                                                </span>
+                            </div>
+                        </div>
+                        <h4 class="m-0 align-self-center" id="total-visitor-current-monthly">0 </h4>
+                        <p class="mb-0 mt-3 text-muted"><span class="text-info"
+                                                              id="total-visitor-difference-monthly">0 <i
+                                    class="mdi mdi-trending-neutral mr-1"></i></span></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <input type="hidden" id="countCameras" value="{{$cameras->count()}}">
+            {{-- @foreach($cameras as $key => $camera)
+                <input type="hidden" id="prefixPort{{$key+1}}" value="{{$camera->prefix_port}}">
+                <input type="hidden" id="ipStreamer{{$key+1}}" value="{{$camera->ws_url}}">
+                <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-body pb-0">
+                            <h5 class="header-title text-center">{{$camera->name}}</h5>
+                            <canvas id="camera-preview-{{$key+1}}" class="card-img-top img-fluid" width="1280"
+                                    height="720">
+                                Your browser does not support the canvas element.
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            @endforeach --}}
+        </div>
+    <!-- end row -->
+
+    
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mb-4">Line Chart Number of Visitors</h4>
+                        <div class="row justify-content-center">
+                            <div class="col-sm-4">
+                                <div class="text-center">
+                                    <p>This Month</p>
+                                    <h4 id="visitor-this-month">0 <span class="mdi mdi-human-greeting mr-1"></span></h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="text-center">
+                                    <p>Last Month</p>
+                                    <h4 id="visitor-last-month">0 <span class="mdi mdi-human-greeting mr-1"></span></h4>
+                                </div>
+                            </div>
+                        </div>
+                        @include('Partials.loading', ['idLoading' => 'loadingVisitorChart', 'height' => 330])
+                        <div id="revenue-chart" class="apex-charts" dir="ltr">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- end row -->
+        @stop
+        @section('js')
+            {{-- <script src="{{asset('assets/js/pages/core-page.js')}}"></script> --}}
+            {{-- <script src="{{asset('core/script/pages/page-camera-management.js')}}"></script>
+            <script>
+                $(document).ready(function () {
+                    streamCanvasCameraManagement();
+                    visitorRate('daily');
+                    visitorRate('weekly');
+                    visitorRate('monthly');
+                    visitorChart();
+                    $('#loadingVisitorChart').show();
+                });
+            </script> --}}
+@endsection

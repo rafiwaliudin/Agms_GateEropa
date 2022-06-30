@@ -1,0 +1,40 @@
+version: '3.1'
+services:
+  # mysql:
+  #   image: mysql:5.7
+  #   restart: always
+  #   container_name: mysql-agms
+  #   tty: true
+  #   environment:
+  #     MYSQL_ROOT_HOST: "%"
+  #     MYSQL_ROOT_PASSWORD: password123
+  #     MYSQL_DATABASE: agms_copy20211218
+  #     MYSQL_USER: root
+  #     MYSQL_PASSWORD: password123
+  #   volumes:
+  #     - ./data/mysql:/var/lib/mysql
+  #   ports:
+  #     - 3307:3306
+
+  agms:
+    build: .
+    container_name: agms
+    restart: always
+    tty: true
+    environment:
+      DB_HOST: "206.189.157.212"
+      DB_PORT: 3307
+      DB_DATABASE: agms_copy20211218
+      DB_USER: root
+      DB_PASSWORD: password123
+      IP_API_DATA_COLLECTOR: 34.101.175.184
+      IMAGE_PORT: 34567
+    # depends_on:
+    #   - mysql
+    ports:
+      - 8888:8081
+    volumes:
+      - ./:/var/www/html
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    command: >
+      supervisord -c /etc/supervisor/conf.d/supervisord.conf

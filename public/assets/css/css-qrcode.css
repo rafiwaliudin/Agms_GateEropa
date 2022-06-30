@@ -1,0 +1,233 @@
+.card {
+    padding:4%;
+}
+
+.flex {
+    display: flex;
+    /* justify-content: space-between; */
+    /* margin-top:5%; */
+    overflow: hidden;
+    background-color:#0db4d6;
+    width: 25rem;
+    padding-top: 10px;
+    border-radius: 3px;
+    position: fixed;
+    bottom: 2%; 
+    
+}
+
+@media (max-width: 768px) { 
+    .flex {
+        display: flex;
+        /* justify-content: space-between; */
+        /* margin-top:5%; */
+        overflow: hidden;
+        /* background-color: #333; */
+        position: fixed;
+        bottom: 5%; 
+        width: 93.5%;
+        
+    }
+
+    .nav-icon {
+        color:#f0f0f7 ;
+        margin-left:20px !important;
+    }
+}
+
+.link {
+    color: #fff;
+}
+
+.nav-icon {
+    color:#f0f0f7 ;
+    margin-left:32px;
+}
+
+.label {
+    font-weight: 550;
+    color: #fff;
+}
+
+.btn-index {
+    margin-top:70%;
+    margin-bottom: 5%;
+}
+
+.qrcode{
+    margin-top:50%;
+    margin-bottom: 45%;
+}
+
+.form-regist{
+    margin-bottom: 11%;
+    margin-top: 5%;
+}
+
+.btn-gate-2 {
+    margin-bottom: 40%;
+}
+
+.form-button{
+    margin-bottom:51%;
+    margin-top:10%;
+}
+
+.app-login{
+    color:white;
+    font-size: large;
+}
+
+.title-home{
+    font-size: large;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.logo{
+    width: 100%;
+    /* margin-right: 20px; */
+}
+
+
+
+.logout-logo{
+    float: left;
+}
+
+.home {
+    color:white;
+    margin-top:25px;
+}
+.visitor {
+    color:white;
+    margin-top:15px;
+}
+
+.margin-card{
+    padding: 25px;
+    width: 23.5rem;
+    margin-top:30px;
+    margin-left: 12px;
+    margin-left: 12px;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) { 
+    .margin-card{
+        padding: 25px;
+        width: 20rem;
+        margin-top:30px;
+        margin-left: 12px;
+        margin-left: 12px;
+        margin-bottom: 1rem;
+    }
+}
+
+
+.space{
+    margin-top:10rem
+}
+
+.modal-body{
+    margin: auto;
+}
+.qr-modal {
+    width: 110%;
+}
+
+.qr-visitor {
+    width: 25%;
+    margin: auto;
+}
+.add-vehicle{
+    margin-top:2rem;
+}
+
+.edit-vehicle{
+    margin-top:2rem;
+}
+
+.btn {
+    font-size: 16px;
+}
+
+.flex-menu{
+    display: flex;
+    justify-content : flex-end;
+}
+
+.margin-trash{
+    margin-right: 25px;
+}
+
+.description-form{
+    color:white;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+}
+
+.forget-password {
+    float: right;
+    margin-bottom: 30px;
+}
+
+.space{
+    margin-top:25rem;
+}
+
+.space-list{
+    margin-top:19.1rem;
+}
+
+.space-visitor{
+    margin-top:14.3rem;
+}
+
+.space-form-create{
+    margin-top:7.8rem;
+}
+
+.space-form{
+    margin-top:13rem;
+}
+
+.margin-vehicle{
+    margin-top:15rem
+}
+
+.margin-list{
+    margin-top: 17.4rem;
+}
+
+.margin-visitor{
+    margin-top: 21.9rem;
+}
+@media (max-width: 768px) { 
+    .space{
+        margin-top:23.95rem;
+    }
+    
+    .space-visitor{
+        margin-top:14.1rem;
+    }
+    .space-list{
+        margin-top:18rem;
+    }
+    .space-form{
+        margin-top:12.9rem;
+    }
+    .space-form-create{
+        margin-top:8rem;
+    }
+    .margin-vehicle{
+        margin-top:15.25rem
+    }
+    .margin-list{
+        margin-top:35.1rem;
+    }
+    .margin-visitor{
+        margin-top: 21rem;
+    }
+}
