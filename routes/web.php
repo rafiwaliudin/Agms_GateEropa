@@ -13,6 +13,11 @@
 
 use App\Http\Controllers\ChartController;
 
+Route::get('listing-eropa', ['as' => 'listing-eropa', 'uses' => 'VisitorController@visitorListPublic']);
+Route::get('gatelist-eropa', ['as' => 'gatelist-eropa', 'uses' => 'GateController@historyList']);
+Route::get('intruderlist-eropa', ['as' => 'intruderlist-eropa', 'uses' => 'IntruderCountingController@historyList']);
+Route::get('speedlist-eropa', ['as' => 'speedlist-eropa', 'uses' => 'HistorySpeedController@historyList']);
+
 Route::get('coming-soon', 'MaintenanceController@comingSoon')->name('coming.soon.index');
 Route::get('404', 'MaintenanceController@notFound')->name('not-found.index');
 

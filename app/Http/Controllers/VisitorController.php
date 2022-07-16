@@ -40,10 +40,10 @@ class VisitorController extends Controller
             2 => 'license_plate',
             3 => 'qrcode_image_path',
         );
-        $limit = $request->input('length');
-        $start = $request->input('start');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
+        $limit = $request->input('length') ?? 10;
+        $start = $request->input('start') ?? 0;
+        $order = $columns[$request->input('order.0.column')] ?? 'id';
+        $dir = $request->input('order.0.dir') ?? 'asc';
         $totalData = Visitor::count();
         $totalFiltered = $totalData;
 
@@ -87,6 +87,75 @@ class VisitorController extends Controller
                 $nestedData['additional_information'] = $visitor->additional_information;
                 $nestedData['position_status'] = $status;
                 $nestedData['action'] = "<a href='" . route("admin.visitor.edit", $visitor->id) . "' class='btn btn-primary' style='margin-right:10px;'><i class='menu-icon icon-brush'></i>Edit</a>" . "<a href='#' type='button' data-target='#verification-modal' data-toggle='modal' data-id='" . $visitor->id . "' data-route='visitor/delete' class='btn btn-danger delete-button'><i class='icon-delete'></i>Delete</a>";
+                $data[] = $nestedData;
+                $no++;
+            }
+        }
+
+        $json_data = array(
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+
+        return json_encode($json_data);
+    }
+
+    public function visitorListPublic(Request $request)
+    {
+        $columns = array(
+            0 => 'id',
+            1 => 'name',
+            2 => 'license_plate',
+            3 => 'qrcode_image_path',
+        );
+        $limit = $request->input('length') ?? 10;
+        $start = $request->input('start') ?? 0;
+        $order = $columns[$request->input('order.0.column')] ?? 'id';
+        $dir = $request->input('order.0.dir') ?? 'asc';
+        $totalData = Visitor::count();
+        $totalFiltered = $totalData;
+
+        if (empty($request->input('search.value'))) {
+            $visitors = Visitor::offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+        } else {
+            $search = $request->input('search.value');
+
+            $visitors = Visitor::where('name', 'LIKE', "%{$search}%")
+                ->orWhere('license_plate', 'LIKE', "%{$search}%")
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+            $totalFiltered = Visitor::where('name', 'LIKE', "%{$search}%")
+                ->orWhere('license_plate', 'LIKE', "%{$search}%")
+                ->count();
+        }
+
+        $data = array();
+        if (!empty($visitors)) {
+            $no = $start + 1;
+            foreach ($visitors as $visitor) {
+                if ($visitor->position_status == "Outside") {
+                    $status =  '<span class="badge badge-warning">Outside</span>';
+                } elseif ($visitor->position_status == "Inside") {
+                    $status = '<span class="badge badge-success">Inside</span>';
+                } else {
+                    $status = '<span class="badge badge-info">Undefined</span>';
+                }
+
+                $nestedData['no'] = $no;
+                $nestedData['name'] = $visitor->name;
+                $nestedData['license_plate'] = $visitor->license_plate;
+                $nestedData['qrcode_image_path'] = '<a data-fancybox="gallery" href="' . $visitor->qrcode_image_path . '" > <img src="' . $visitor->qrcode_image_path . '" alt="user" class="avatar-xs rounded-circle"></a>';
+                $nestedData['qrcode_expiry_date'] = Carbon::parse($visitor->qrcode_expiry_date)->format('d-m-Y h:i:s');
+                $nestedData['additional_information'] = $visitor->additional_information;
+                $nestedData['position_status'] = $status;
                 $data[] = $nestedData;
                 $no++;
             }

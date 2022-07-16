@@ -85,10 +85,10 @@ class IntruderCountingController extends Controller
                 'no' => $no,
                 'image' => '<a data-fancybox="gallery" href="' .  $history->image . '"><img src="' . $history->image . '" alt="user" class="avatar-xs rounded-circle"></a>',
                 'license_plate' => '<h5 class="font-size-15 mb-0 text-sm-left">' . $history->license_plate . '</h5>',
-                'area' => empty($history->residentialGate->cluster->area->name) ? "" : $history->residentialGate->cluster->area->name,
-                'cluster' => empty($history->residentialGate->cluster->name) ? "" : $history->residentialGate->cluster->name,
-                'residentialGate' => empty($history->residentialGate->name) ? "" : $history->residentialGate->name,
-                'status' => empty($history->status) ? "" : $history->status,
+                // 'area' => empty($history->residentialGate->cluster->area->name) ? "" : $history->residentialGate->cluster->area->name,
+                // 'cluster' => empty($history->residentialGate->cluster->name) ? "" : $history->residentialGate->cluster->name,
+                // 'residentialGate' => empty($history->residentialGate->name) ? "" : $history->residentialGate->name,
+                // 'status' => empty($history->status) ? "" : $history->status,
                 'timestamp' => empty($history->created_at) ? "" : Carbon::parse($history->created_at)->format('d-m-Y h:i:s'),
             );
 
