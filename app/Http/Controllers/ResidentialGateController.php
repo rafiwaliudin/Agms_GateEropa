@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Cluster;
 use App\ResidentialGate;
+use App\Visitor;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class ResidentialGateController extends Controller
 {
@@ -235,5 +237,42 @@ class ResidentialGateController extends Controller
 
             return jsend_fail('fail to delete data');
         }
+    }
+
+    public function residentialRate(Request $request)
+    {
+        Carbon::setWeekStartsAt(Carbon::SUNDAY);
+        Carbon::setWeekEndsAt(Carbon::SATURDAY);
+        if ($request->phase == 'daily') {
+            $customerCountingCurrentTotal = Visitor::whereDate('created_at', Carbon::today())->count();
+            $customerCountingPreviousTotal = Visitor::whereDate('created_at', Carbon::yesterday())->count();
+        } elseif ($request->phase == 'weekly') {
+            $customerCountingCurrentTotal = Visitor::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+            $customerCountingPreviousTotal = Visitor::where('created_at', Carbon::now()->startOfWeek()->subWeek())->count();
+        } elseif ($request->phase == 'monthly') {
+            $customerCountingCurrentTotal = Visitor::whereMonth('created_at', Carbon::now()->month)->count();
+            $customerCountingPreviousTotal = Visitor::where('created_at', Carbon::now()->subMonth()->month)->count();
+        }
+
+        if ($customerCountingCurrentTotal > $customerCountingPreviousTotal) {
+            $status = 'mdi mdi-trending-up mr-1';
+            $textColor = 'text-success';
+        } elseif ($customerCountingCurrentTotal < $customerCountingPreviousTotal) {
+            $status = 'mdi mdi-trending-down mr-1';
+            $textColor = 'text-danger';
+        } else {
+            $status = 'mdi mdi-trending-neutral mr-1';
+            $textColor = 'text-info';
+        }
+
+        $differenceTotal = number_format($customerCountingCurrentTotal - $customerCountingPreviousTotal, 0, ',', '.');
+
+        $result = [
+            'current' => $customerCountingCurrentTotal == null ? 0 : $customerCountingCurrentTotal,
+            'difference' => '<p class="mb-0 mt-3 text-muted"><span class="' . $textColor . '" id="total-residential-difference-daily">' . "$differenceTotal" . ' <i
+                                    class="' . $status . '" id="status-residential-daily"></i></span> From previous period</p>',
+        ];
+
+        return jsend_success($result, 200);
     }
 }
