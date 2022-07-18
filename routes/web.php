@@ -125,6 +125,11 @@ Route::group(['as' => 'admin.'], function () {
             Route::post('history/list', ['as' => 'list', 'uses' => 'IntruderCountingController@historyList']);
         });
 
+        Route::group(['prefix' => 'speed_history', 'as' => 'speed_history.'], function () {
+            Route::get('history', ['as' => 'history', 'uses' => 'HistorySpeedController@index']);
+            Route::post('history/list', ['as' => 'list', 'uses' => 'HistorySpeedController@historyList']);
+        });
+
         Route::group(['prefix' => 'chart', 'as' => 'chart.'], function () {
             Route::get('history', ['as' => 'history', 'uses' => 'PeopleController@indexPeople']);
         });

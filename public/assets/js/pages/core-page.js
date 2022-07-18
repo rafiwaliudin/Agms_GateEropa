@@ -850,20 +850,20 @@ $.fn.dataTable.pipeline = function ( opts , a, e) {
             endDate: e
         }
     }, opts );
- 
+
     // Private variables for storing the cache
     var cacheLower = -1;
     var cacheUpper = null;
     var cacheLastRequest = null;
     var cacheLastJson = null;
- 
+
     return function ( request, drawCallback, settings ) {
         var ajax          = false;
         var requestStart  = request.start;
         var drawStart     = request.start;
         var requestLength = request.length;
         var requestEnd    = requestStart + requestLength;
-         
+
         if ( settings.clearCache ) {
             // API requested that the cache be cleared
             ajax = true;
@@ -880,26 +880,26 @@ $.fn.dataTable.pipeline = function ( opts , a, e) {
             // properties changed (ordering, columns, searching)
             ajax = true;
         }
-         
+
         // Store the request for checking next time around
         cacheLastRequest = $.extend( true, {}, request );
- 
+
         if ( ajax ) {
             // Need data from the server
             if ( requestStart < cacheLower ) {
                 requestStart = requestStart - (requestLength*(conf.pages-1));
- 
+
                 if ( requestStart < 0 ) {
                     requestStart = 0;
                 }
             }
-             
+
             cacheLower = requestStart;
             cacheUpper = requestStart + (requestLength * conf.pages);
- 
+
             request.start = requestStart;
             request.length = requestLength*conf.pages;
- 
+
             // Provide the same `data` options as DataTables.
             if ( typeof conf.data === 'function' ) {
                 // As a function it is executed with the data object as an arg
@@ -914,7 +914,7 @@ $.fn.dataTable.pipeline = function ( opts , a, e) {
                 // As an object, the data given extends the default
                 $.extend( request, conf.data );
             }
- 
+
             return $.ajax( {
                 "type":     conf.method,
                 "url":      conf.url,
@@ -923,14 +923,14 @@ $.fn.dataTable.pipeline = function ( opts , a, e) {
                 "cache":    false,
                 "success":  function ( json ) {
                     cacheLastJson = $.extend(true, {}, json);
- 
+
                     if ( cacheLower != drawStart ) {
                         json.data.splice( 0, drawStart-cacheLower );
                     }
                     if ( requestLength >= -1 ) {
                         json.data.splice( requestLength, json.data.length );
                     }
-                     
+
                     drawCallback( json );
                 }
             } );
@@ -940,7 +940,7 @@ $.fn.dataTable.pipeline = function ( opts , a, e) {
             json.draw = request.draw; // Update the echo for each response
             json.data.splice( 0, requestStart-cacheLower );
             json.data.splice( requestLength, json.data.length );
- 
+
             drawCallback(json);
         }
     }
@@ -955,11 +955,11 @@ $.fn.dataTable.Api.register( 'clearPipeline()', function () {
 function newexportactionMethod(e, dt, button, config) {
     var self = this;
     var oldStart = dt.settings()[0]._iDisplayStart;
-    
+
         dt.one('preXhr', function (e, s, data) {
             //  load all data from the server...
-           
-            
+
+
                 data.start = 0;
                 data.length = dt.page.info().recordsDisplay;
                 //data.length = dt.page.info().recordsTotal;
@@ -1002,7 +1002,7 @@ function newexportactionMethod(e, dt, button, config) {
                         console.log('one');
                         settings._iDisplayStart = oldStart;
                         data.start = oldStart;
-                        
+
                     });
                     // Reload the grid with the original page. Otherwise, API functions like table.cell(this) don't work properly.
                     document.getElementsByClassName('buttons-excel').disabled = false;
@@ -1010,12 +1010,12 @@ function newexportactionMethod(e, dt, button, config) {
                     // Prevent rendering of the full data to the DOM
                     return false;
                 });
-           
+
         });
         // Requery the server with the new one-time export settings
         dt.ajax.reload();
-    
-    
+
+
 };
 function openExport(codeF){
     var a = $("#startDateExport").val(),
@@ -1052,14 +1052,14 @@ function gateHistoryTable() {
     //                 };
     //                 return xhr;
     //             },
-    //     data: { 
-    //         codeFile: 0, 
-    //         startDate: startDate, 
+    //     data: {
+    //         codeFile: 0,
+    //         startDate: startDate,
     //         endDate: endDate
     //       },
     //     success: function(data){
     //             var blob = new Blob([data], { type: "application/octetstream" });
- 
+
     //                 //Check the Browser type and download the File.
     //                 var isIE = false || !!document.documentMode;
     //                 if (isIE) {
@@ -1075,16 +1075,16 @@ function gateHistoryTable() {
     //                     $("body").remove(a);
     //                 }
     //     },
-        
-        
+
+
     //     });
-    
+
     $("#gate-history-table").DataTable().destroy(),
     $("#gate-history-table").DataTable({
-        
+
         dom: "Tlfrtip",
-        lengthMenu: 
-            
+        lengthMenu:
+
             [[10,25, 50,100], [10, 25, "50","100"]]
         ,
         // buttons: [
@@ -1110,7 +1110,7 @@ function gateHistoryTable() {
         ],
         // ajax:
         //     $.fn.dataTable.pipeline( {
-                
+
         //     },a,e )
         // ,
         ajax: {
@@ -1131,9 +1131,9 @@ function gateHistoryTable() {
         drawCallback: function() {
             $("#loadingGateHistoryListTable").hide()
         },
-       
-        columnDefs: [ 
-            { orderable: false, targets: [0,1,2,3,4,5,6,7] }, 
+
+        columnDefs: [
+            { orderable: false, targets: [0,1,2,3,4,5,6,7] },
         ],
         columns: [{
             data: "no"
@@ -1855,6 +1855,54 @@ function intruderCountingHistoryTable() {
             data: "residentialGate"
         }, {
             data: "status"
+        }, {
+            data: "timestamp"
+        }]
+    })
+}
+
+function speedHistoryTable() {
+    var a = $("#startDate").val(),
+        e = $("#endDate").val();
+    $("#people-counting-table").DataTable().destroy(), $("#people-counting-table").DataTable({
+        dom: "Bfrtip",
+        lengthMenu: [
+            [10, 25, 50, 100, 500, 1e3, 2e3, 5e3],
+            ["10 rows", "25 rows", "50 rows", "100 rows", "500 rows", "1000 rows", "2000 rows", "5000 rows"]
+        ],
+        buttons: ["pageLength", "excelHtml5", {
+            extend: "pdfHtml5",
+            orientation: "landscape",
+            pageSize: "LEGAL"
+        }],
+
+        processing: true,
+        serverSide: true,
+        order: [
+            [0, "desc"]
+        ],
+        ajax: {
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            url: "/speed_history/history/list",
+            type: "POST",
+            data: {
+                startDate: a,
+                endDate: e
+            }
+        },
+        drawCallback: function() {
+            $("#loadingSpeedHistoryTable").hide()
+        },
+        columns: [{
+            data: "no"
+        }, {
+            data: "image"
+        }, {
+            data: "plate_number"
+        }, {
+            data: "speed"
         }, {
             data: "timestamp"
         }]

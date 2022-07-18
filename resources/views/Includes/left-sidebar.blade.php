@@ -54,13 +54,19 @@
                         <i class="mdi mdi-account"></i>
                         <span>People Counting</span>
                     </a>
-                </li>
+                </li>-->
                 <li>
                     <a href="{{route('admin.intruder_counting.history')}}" class="waves-effect">
                         <i class="mdi mdi-color-helper"></i>
                         <span>Intruder Counting</span>
                     </a>
-                </li> -->
+                </li>
+                <li>
+                    <a href="{{route('admin.speed_history.history')}}" class="waves-effect">
+                        <i class="mdi mdi-car"></i>
+                        <span>Speed</span>
+                    </a>
+                </li>
                 <!-- <li>
                     <a href="{{route('admin.chart.history')}}" class="waves-effect">
                         <i class="mdi mdi-chart-arc"></i>
