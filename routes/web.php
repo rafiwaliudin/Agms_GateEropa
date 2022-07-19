@@ -15,8 +15,6 @@ use App\Http\Controllers\ChartController;
 
 Route::get('listing-eropa', ['as' => 'listing-eropa', 'uses' => 'VisitorController@visitorListPublic']);
 Route::get('gatelist-eropa', ['as' => 'gatelist-eropa', 'uses' => 'GateController@historyList']);
-Route::get('intruderlist-eropa', ['as' => 'intruderlist-eropa', 'uses' => 'IntruderCountingController@historyList']);
-Route::get('speedlist-eropa', ['as' => 'speedlist-eropa', 'uses' => 'HistorySpeedController@historyList']);
 Route::get('visitor-rate', ['as' => 'rate', 'uses' => 'VisitorController@visitorRate']);
 Route::get('residential-rate', ['as' => 'rate', 'uses' => 'ResidentialGateController@residentialRate']);
 Route::get('eropa-chart', ['as' => 'rate', 'uses' => 'VisitorController@visitorChart']);

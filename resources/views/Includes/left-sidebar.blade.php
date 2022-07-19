@@ -43,42 +43,7 @@
                         <span>Open Gate History</span>
                     </a>
                 </li>
-                <!-- <li>
-                    <a href="{{route('admin.vehicle_counting.history')}}" class="waves-effect">
-                        <i class="mdi mdi-car"></i>
-                        <span>Vehicle Counting</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{route('admin.people_counting.history')}}" class="waves-effect">
-                        <i class="mdi mdi-account"></i>
-                        <span>People Counting</span>
-                    </a>
-                </li>-->
-                <li>
-                    <a href="{{route('admin.intruder_counting.history')}}" class="waves-effect">
-                        <i class="mdi mdi-color-helper"></i>
-                        <span>Intruder Counting</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{route('admin.speed_history.history')}}" class="waves-effect">
-                        <i class="mdi mdi-car"></i>
-                        <span>Speed</span>
-                    </a>
-                </li>
-                <!-- <li>
-                    <a href="{{route('admin.chart.history')}}" class="waves-effect">
-                        <i class="mdi mdi-chart-arc"></i>
-                        <span>Chart</span>
-                    </a>
-                </li> -->
-                <!-- <li>
-                    <a href="{{route('admin.camera-management.index')}}" class="waves-effect">
-                        <i class="mdi mdi-camera"></i>
-                        <span>Camera Management</span>
-                    </a>
-                </li> -->
+
                 <li>
                     <a href="{{route('admin.notification.index')}}" class="waves-effect">
                         <i class="mdi mdi-bell"></i>

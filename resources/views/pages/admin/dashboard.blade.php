@@ -83,24 +83,6 @@
             </div>
 
         </div>
-        <div class="row">
-            <input type="hidden" id="countCameras" value="{{$cameras->count()}}">
-            @foreach($cameras as $key => $camera)
-                <input type="hidden" id="prefixPort{{$key+1}}" value="{{$camera->ws_port}}">
-                <input type="hidden" id="ipStreamer{{$key+1}}" value="{{$camera->ws_url}}">
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body pb-0">
-                            <h5 class="header-title text-center">{{$camera->name}}</h5>
-                            <canvas id="camera-preview-{{$key+1}}" class="card-img-top img-fluid" width="1280"
-                                    height="720">
-                                Your browser does not support the canvas element.
-                            </canvas>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
     <!-- end row -->
 
         <div class="row">
@@ -141,11 +123,11 @@
                     visitorRate('monthly');
                     visitorChart();
                     $('#loadingVisitorChart').show();
-                    
+
                 });
             </script>
             <script>
-        
+
            cameras.forEach(function (camera) {
            var desc = $('#description-' + camera.id);
            var timestamp = $('#timestamp-' + camera.id);
@@ -155,28 +137,28 @@
            var player = new JSMpeg.Player(url, { canvas: canvas, audio: false });
            timestamp.append(`[${moment().format('DD/MM/yyyy HH:mm:ss')}]`)
            desc.append('Belum ada notifikasi pesan baru')
-         
+
            var card = $('#card-' + camera.id);
            //- var animate = $('#animate-' + camera.id);
            //- var classAnimate = 'animate-pulse'
            var successClassColors = ['animate-pulse', 'border-green-500', 'text-green-500']
            var failClassColors = ['animate-pulse', 'border-red-500', 'text-red-500']
-         
+
            var wsc = new WebSocket(`ws://localhost:${camera.ws_port}4`);
            //- var wsc = new WebSocket(`ws://159.89.206.10:${camera.ws_port}4`);
            var timeout;
-         
+
            function startTimeout() {
              timeout = setTimeout(function(){
                //- animate.removeClass(classAnimate);
                card.removeClass([...successClassColors, ...failClassColors]);
              }, 3000);
            }
-         
+
            function stopTimeout() {
              clearTimeout(timeout);
            }
-         
+
            wsc.onmessage = function (event) {
              const data = JSON.parse(event.data);
              if (data && data.type === 'notification') {
